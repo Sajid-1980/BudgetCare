@@ -1,0 +1,140 @@
+﻿@model BudgetCare.Models.tbl_Caterory
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<head>
+    <link href="~/stylesheet/RegistrationStyleSheet.css" rel="stylesheet" />
+</head>
+
+<h2>Create New Category </h2>
+
+ 
+
+
+
+
+<div class="Layout" id="myform">
+
+    <div class="row">
+
+
+        <div class="col-md-6 form-horizontal Form" id="myform">
+
+
+            <form id="Addnewcat" method="post" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">
+                <label>Title</label><br />
+                <input id="tileName" name="catryTitle" placeholder="Enter The Title"  class="form-control"/><br /><br />
+
+                <label>Description</label><br />
+                <input id="tiledes" name="catDesp" placeholder="Enter The Description" class="form-control" /><br /><br />
+
+                <label>Images</label><br />
+                <input id="catImg" name="catImg" type="file" /><br /><br />
+
+                <button class="btn btn-danger">Create</button>
+
+            </form>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-6  Image">
+            <img src="~/images/budget 900x400v2.png" class="img-responsive" />
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script  >
+
+    function AjaxPost(formData) {
+        var ajaxConfig = {
+            type: "post",
+            url: "/Categories/SaveData",
+            data: new FormData(formData),
+            success: function (result) {
+                alert(result);
+                window.location.href = "/Categories/Create"
+            }
+        }
+        if ($(formData).attr('enctype') == "multipart/form-data") {
+            ajaxConfig["contentType"] = false;
+            ajaxConfig["processData"] = false;
+
+        }
+
+        $.ajax(ajaxConfig);
+        return false;
+    }
+
+
+</script>
+
+
+
+
+@*<div class="form-group">
+    <div class="col-md-12">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+
+            @Html.EditorFor(model => model.catryTitle, new { htmlAttributes = new { @class = "form-control", id = "txttile", @placeholder = "Enter Your Title " } })
+            @Html.ValidationMessageFor(model => model.catryTitle, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+
+<div class="form-group">
+    <div class="col-md-12">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon   glyphicon-list-alt"></i></span>
+
+            @Html.EditorFor(model => model.catDesp, new { htmlAttributes = new { @class = "form-control", id = "txtdes", @placeholder = "Enter the Description " } })
+            @Html.ValidationMessageFor(model => model.catDesp, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+<div class="form-group">
+    <div class="col-md-12">
+
+        <input type="file" id="ImageUpload" name="ImageUpload" />
+    </div>
+</div>
+
+
+
+<br />
+<br />
+
+<div class="form-group">
+    <div class="col-md-2">
+
+        <button class="btn btn-danger">Create</button>
+
+
+    </div>
+
+</div>*@

@@ -1,0 +1,168 @@
+﻿@model BudgetCare.Models.tbl_Income
+
+@{
+    ViewBag.Title = "CreateIncome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">New Income</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="" data-original-title="Remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+
+
+            <section class="content">
+                <div class="row">
+
+                    <div class="col-md-6">
+
+
+                        <form id="Addnewcat" method="post" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">
+                            <label>Amount</label><br />
+                            <input type="number" id="amount" name="amount" class="col-md-6 form-control" placeholder="Enter The Title" /><br /><br />
+
+                            <label>Description</label><br />
+                            <input id="description" class="col-md-6 form-control" name="description" placeholder="Enter The Description" /><br /><br />
+
+                            <label>Date</label><br />
+                            <input type="date" class="col-md-6 form-control" name="date"> <br /><br />
+                            <div class="form-group">
+                                <label>Category</label><br />
+                                @if (ViewBag.CountryList != null)
+                                {
+                                    @Html.DropDownListFor(model => model.catid, ViewBag.CountryList as SelectList, "--Select Category--", new { @class = "form-control" })
+                                }
+                            </div>
+
+                            <button class="btn btn-danger">Create</button>
+
+                        </form>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-6  Image">
+
+                        <img src="~/images/income-money-change-salary-raise-800x450.jpg" class="img-responsive" />
+                        @*<img src="~/images/Living-Off-Rental-Income-Is-It-Possible-How.jpg" class="img-responsive" />*@
+
+                    </div>
+
+                </div>
+                <!-- /.row -->
+            </section>
+
+
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <p>
+            </p>
+
+        </div>
+        <!-- /.box-footer-->
+    </div>
+    <!-- /.box -->
+
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#catryID").change(function () {
+            $.get("/Income/GetStateList", { CountryId: $("#catryID").val() }, function (data) {
+                $("#incId").empty();
+                $.each(data, function (index, row) {
+                    $("#incId").append("<option value='" + row.incId + "'>" + row.catryTitle + "</option>")
+                });
+            });
+        })
+    });
+
+
+
+
+    function AjaxPost(formData) {
+        var ajaxConfig = {
+            type: "post",
+            url: "/Income/SaveIncome",
+            data: new FormData(formData),
+            success: function (result) {
+                alert(result);
+                window.location.href = "/Income/CreateIncome"
+            }
+        }
+        if ($(formData).attr('enctype') == "multipart/form-data") {
+            ajaxConfig["contentType"] = false;
+            ajaxConfig["processData"] = false;
+
+        }
+
+        $.ajax(ajaxConfig);
+        return false;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

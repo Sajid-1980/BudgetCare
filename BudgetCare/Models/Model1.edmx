@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Caterory">
+          <Key>
+            <PropertyRef Name="catryID" />
+          </Key>
+          <Property Name="catryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catryTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="catDesp" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="imgUrl" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Expense">
+          <Key>
+            <PropertyRef Name="expId" />
+          </Key>
+          <Property Name="expId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="catid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Income">
+          <Key>
+            <PropertyRef Name="incId" />
+          </Key>
+          <Property Name="incId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="catid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="contactNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
+          <Property Name="joingdate" Type="date" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_tbl_Caterory_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Caterory">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Expense_tbl_Caterory">
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Expense" Type="Self.tbl_Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Caterory">
+              <PropertyRef Name="catryID" />
+            </Principal>
+            <Dependent Role="tbl_Expense">
+              <PropertyRef Name="catid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Expense_tbl_User1">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Expense" Type="Self.tbl_Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Expense">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Income_tbl_Caterory">
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Income" Type="Self.tbl_Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Caterory">
+              <PropertyRef Name="catryID" />
+            </Principal>
+            <Dependent Role="tbl_Income">
+              <PropertyRef Name="catid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Income_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Income" Type="Self.tbl_Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Income">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBProjectModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Caterory" EntityType="Self.tbl_Caterory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Expense" EntityType="Self.tbl_Expense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Income" EntityType="Self.tbl_Income" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_Caterory_tbl_User" Association="Self.FK_tbl_Caterory_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Expense_tbl_Caterory" Association="Self.FK_tbl_Expense_tbl_Caterory">
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+            <End Role="tbl_Expense" EntitySet="tbl_Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Expense_tbl_User1" Association="Self.FK_tbl_Expense_tbl_User1">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Expense" EntitySet="tbl_Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Income_tbl_Caterory" Association="Self.FK_tbl_Income_tbl_Caterory">
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+            <End Role="tbl_Income" EntitySet="tbl_Income" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Income_tbl_User" Association="Self.FK_tbl_Income_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Income" EntitySet="tbl_Income" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Caterory">
+          <Key>
+            <PropertyRef Name="catryID" />
+          </Key>
+          <Property Name="catryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catryTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="catDesp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="imgUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Caterory_tbl_User" FromRole="tbl_Caterory" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_Expense" Relationship="Self.FK_tbl_Expense_tbl_Caterory" FromRole="tbl_Caterory" ToRole="tbl_Expense" />
+          <NavigationProperty Name="tbl_Income" Relationship="Self.FK_tbl_Income_tbl_Caterory" FromRole="tbl_Caterory" ToRole="tbl_Income" />
+        </EntityType>
+        <EntityType Name="tbl_Expense">
+          <Key>
+            <PropertyRef Name="expId" />
+          </Key>
+          <Property Name="expId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="catid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Caterory" Relationship="Self.FK_tbl_Expense_tbl_Caterory" FromRole="tbl_Expense" ToRole="tbl_Caterory" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Expense_tbl_User" FromRole="tbl_Expense" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_Income">
+          <Key>
+            <PropertyRef Name="incId" />
+          </Key>
+          <Property Name="incId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="catid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Caterory" Relationship="Self.FK_tbl_Income_tbl_Caterory" FromRole="tbl_Income" ToRole="tbl_Caterory" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Income_tbl_User" FromRole="tbl_Income" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="joingdate" Type="DateTime" Precision="0" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Caterory" Relationship="Self.FK_tbl_Caterory_tbl_User" FromRole="tbl_User" ToRole="tbl_Caterory" />
+          <NavigationProperty Name="tbl_Expense" Relationship="Self.FK_tbl_Expense_tbl_User" FromRole="tbl_User" ToRole="tbl_Expense" />
+          <NavigationProperty Name="tbl_Income" Relationship="Self.FK_tbl_Income_tbl_User" FromRole="tbl_User" ToRole="tbl_Income" />
+        </EntityType>
+        <Association Name="FK_tbl_Caterory_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Caterory">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Expense_tbl_Caterory">
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Expense" Type="Self.tbl_Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Caterory">
+              <PropertyRef Name="catryID" />
+            </Principal>
+            <Dependent Role="tbl_Expense">
+              <PropertyRef Name="catid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Income_tbl_Caterory">
+          <End Role="tbl_Caterory" Type="Self.tbl_Caterory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Income" Type="Self.tbl_Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Caterory">
+              <PropertyRef Name="catryID" />
+            </Principal>
+            <Dependent Role="tbl_Income">
+              <PropertyRef Name="catid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Expense_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Expense" Type="Self.tbl_Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Expense">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Income_tbl_User">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1" />
+          <End Role="tbl_Income" Type="Self.tbl_Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="tbl_Income">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBProjectEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_Caterory" EntityType="Self.tbl_Caterory" />
+          <EntitySet Name="tbl_Expense" EntityType="Self.tbl_Expense" />
+          <EntitySet Name="tbl_Income" EntityType="Self.tbl_Income" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <AssociationSet Name="FK_tbl_Caterory_tbl_User" Association="Self.FK_tbl_Caterory_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Expense_tbl_Caterory" Association="Self.FK_tbl_Expense_tbl_Caterory">
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+            <End Role="tbl_Expense" EntitySet="tbl_Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Income_tbl_Caterory" Association="Self.FK_tbl_Income_tbl_Caterory">
+            <End Role="tbl_Caterory" EntitySet="tbl_Caterory" />
+            <End Role="tbl_Income" EntitySet="tbl_Income" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Expense_tbl_User" Association="Self.FK_tbl_Expense_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Expense" EntitySet="tbl_Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Income_tbl_User" Association="Self.FK_tbl_Income_tbl_User">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Income" EntitySet="tbl_Income" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBProjectModelStoreContainer" CdmEntityContainer="DBProjectEntities2">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DBProjectModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Caterory">
+            <EntityTypeMapping TypeName="DBProjectModel.tbl_Caterory">
+              <MappingFragment StoreEntitySet="tbl_Caterory">
+                <ScalarProperty Name="catryID" ColumnName="catryID" />
+                <ScalarProperty Name="catryTitle" ColumnName="catryTitle" />
+                <ScalarProperty Name="catDesp" ColumnName="catDesp" />
+                <ScalarProperty Name="imgUrl" ColumnName="imgUrl" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Expense">
+            <EntityTypeMapping TypeName="DBProjectModel.tbl_Expense">
+              <MappingFragment StoreEntitySet="tbl_Expense">
+                <ScalarProperty Name="expId" ColumnName="expId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="catid" ColumnName="catid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Income">
+            <EntityTypeMapping TypeName="DBProjectModel.tbl_Income">
+              <MappingFragment StoreEntitySet="tbl_Income">
+                <ScalarProperty Name="incId" ColumnName="incId" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="catid" ColumnName="catid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="DBProjectModel.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="contactNo" ColumnName="contactNo" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="joingdate" ColumnName="joingdate" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,243 @@
+﻿@model IEnumerable<BudgetCare.Models.tbl_Income>
+
+@{
+    ViewBag.Title = "Income";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Income</h2>
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<p>
+    @Html.ActionLink("Create Income", "CreateIncome", null, new { @class = "btn btn-success glyphicon ; glyphicon-pencil", @style = "height : 40px ; width:180px" })
+</p>
+
+
+
+<table class="table table-bordered table-hover table-striped" id="tbl">
+    <thead>
+        <tr>
+            <th>Income ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Action</th>
+
+
+        </tr>
+
+    </thead>
+
+
+</table>
+<script src="~/Scripts/moment.js"></script>
+
+<script>
+
+
+     var dataTable;
+     $(document).ready(function () {
+
+         dataTable = $("#tbl").DataTable({
+
+             "ajax": {
+                 "url": "/Income/getallIncome",
+                 "type": "GET",
+                 "datatype": "json"
+             },
+             "columns": [
+
+                 { "data": "incId" },
+
+                 { "data": "amount" },
+
+                 {
+                     data: "date",
+                     "render": function (value) {
+                         if (value === null) return "";
+                         return moment(value).format('DD/MM/YYYY');
+                     }
+
+
+
+                 },
+
+                 { "data": "catryTitle" },
+
+                 { "data": "description" },
+
+
+                 {
+                     "data": "incId", "render": function (data) {
+                         return " <a class='btn btn-info btn-sm' onclick=Edit(" + data + ")><i class='fa fa-pencil'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete </a>";
+                     },
+                     "orderable": false,
+                     "searchable": false,
+                     "width": "350px"
+                 }
+             ]
+
+         });
+
+
+
+     });
+
+
+    function Edit(id) {
+        window.location.href = "/Income/EditIncome/" + id;
+
+    }
+
+ function Delete(id) {
+            if(confirm('Are You Sure to Delete this Income  '))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteIncome", "Income")/' + id,
+                    success: function (response) {
+                    if (response.status == 0) {
+                         toastr.error(response.message)
+                        }
+                 else {
+                 dataTable.ajax.reload();
+                toastr.success(response.message)
+
+
+
+            }
+                    }
+
+                });
+            }
+        }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<h2>Income</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tbl_Caterory.catryTitle)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tbl_Caterory.catryTitle)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.incId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.incId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.incId })
+            </td>
+        </tr>
+    }
+
+    </table>*@

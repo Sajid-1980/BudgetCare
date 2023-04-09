@@ -1,0 +1,52 @@
+﻿body {
+    background-color: #f3f3f3;
+}
+
+.Layout {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.LoginLayout {
+    background-color: black;
+    height: 40px;
+}
+
+h2 {
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.Form input[type="text"] {
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.input-group-addon {
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+    border-bottom: 1px solid #ddd;
+    padding: 0;
+    padding-left: 3px;
+}
+
+.Form input[type="submit"] {
+    background-color: #00BFA5;
+    height: 40px;
+    width: 120px;
+    border-radius: 50px;
+}
+
+    .Form input[type="submit"]:hover {
+        background-color: black;
+    }
+
+::placeholder {
+    font-family: 'Lexend Mega', sans-serif;
+    letter-spacing: 2px;
+}

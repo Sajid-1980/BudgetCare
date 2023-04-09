@@ -1,0 +1,287 @@
+﻿@model IEnumerable<BudgetCare.Models.tbl_Caterory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Caterory</h2>
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<p>
+    @Html.ActionLink("Create ", "Create", null, new { @class = "btn btn-success glyphicon ; glyphicon-pencil", @style = "height : 40px ; width:130px" })
+</p>
+
+
+
+<table class="table table-bordered table-hover table-striped" id="tbl">
+    <thead>
+        <tr>
+            <th>
+                Category ID
+            </th>
+            <th>
+                Category Title
+            </th>
+            <th>
+                Category Discription
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Action
+            </th>
+
+
+
+        </tr>
+
+    </thead>
+
+
+</table>
+
+
+<script>
+
+
+     var dataTable;
+     $(document).ready(function () {
+
+         dataTable = $("#tbl").DataTable({
+
+             "ajax": {
+                 "url": "/Categories/getallRecord",
+                 "type": "GET",
+                 "datatype": "json"
+             },
+             "columns": [
+
+                 { "data": "catryID" },
+                 { "data": "catryTitle" },
+                 { "data": "catDesp" },
+                 {
+                     "data": "imgUrl", "render": function (data) {
+                         return '<img style="height:100px; width:200px" src="' + "/images/" + data + '" />';
+
+                     }
+                 },
+
+
+
+
+                 {
+                     "data": "catryID", "render": function (data) {
+                         return " <a class='btn btn-info btn-sm' onclick=Edit(" + data + ")><i class='fa fa-pencil'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete </a>";
+                     },
+                     "orderable": false,
+                     "searchable": false,
+                     "width": "350px"
+                 }
+             ]
+
+         });
+
+
+
+     });
+
+
+    function Edit(id) {
+        window.location.href = "/Categories/Edit/" + id;
+
+    }
+
+
+     function Delete(id) {
+            if(confirm('Are You Sure to Delete this Category'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Categories")/' + id,
+                    success: function (response) {
+                    if (response.status == 0) {
+                         toastr.error(response.message)
+                        }
+                 else {
+                 dataTable.ajax.reload();
+                toastr.success(response.message)
+
+
+
+            }
+                    }
+
+                });
+            }
+        }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Delete Employee</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Are you sure ? You want to delete this. </h4>
+
+                    <div style="text-align:center;display:none" id="loaderDiv">
+                        <img src="~/images/Spinner-2 (1).gif" tyle="height:100px;width:100px" />
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a href="#" class="btn btn-success" onclick="DeleteEmployee()">Confirm</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <input type="hidden" id="hiddenEmployeeId" />
+
+
+
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script>
+
+        var ConfirmDelete = function (catryID) {
+
+            $("#hiddenEmployeeId").val(catryID);
+            $("#myModal").modal('show');
+
+        }
+
+        var DeleteEmployee = function () {
+
+            $("#loaderDiv").show();
+
+            var empId = $("#hiddenEmployeeId").val();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Catrgories/DeleteRecord",
+                data: { catryID: empId },
+                success: function (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModal").modal("hide");
+                    $("#row_" + empId).remove();
+
+                }
+
+            })
+
+        }
+    </script>*@
+
+
+
+
+@*<tbody >
+
+        @foreach (var item in Model)
+         {
+            <tr>
+                <td>
+                    @html.displayfor(modelitem => item.catryid)
+                </td>
+                <td>
+                    @html.displayfor(modelitem => item.catrytitle)
+                </td>
+                <td>
+                    @html.displayfor(modelitem => item.catdesp)
+                </td>
+                <td>
+                    <img src="~/images/@item.imgurl" height="100" width="200" class="img-responsive" />
+
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "", null, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Details", "Details", "", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "Delete", "Categories", new { id = item.catryID }, htmlAttributes: new { @class = "btn btn-danger", onclick = "return confirmDelete()" })
+
+                </td>
+            </tr>
+        }
+    </tbody>*@

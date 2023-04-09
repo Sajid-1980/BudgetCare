@@ -1,0 +1,122 @@
+﻿@model IEnumerable<BudgetCare.Models.tbl_Expense>
+
+@{
+    ViewBag.Title = "Expense";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Expense</h2>
+<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<p>
+    @Html.ActionLink("Create Expense", "CreateExp", null, new { @class = "btn btn-success glyphicon ; glyphicon-pencil", @style = "height : 40px ; width:180px" })
+</p>
+
+
+
+<table class="table table-bordered table-hover table-striped" id="tbl">
+    <thead>
+        <tr>
+            <th>Expense ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Action</th>
+
+
+        </tr>
+
+    </thead>
+
+
+</table>
+<script src="~/Scripts/moment.js"></script>
+
+<script>
+
+
+     var dataTable;
+     $(document).ready(function () {
+
+         dataTable = $("#tbl").DataTable({
+
+             "ajax": {
+                 "url": "/Expense/getallExp",
+                 "type": "GET",
+                 "datatype": "json"
+             },
+             "columns": [
+
+                 { "data": "expId" },
+
+                 { "data": "amount" },
+
+                 {
+                     data: "date",
+                     "render": function (value) {
+                         if (value === null) return "";
+                         return moment(value).format('DD/MM/YYYY');
+                     }
+
+
+
+                 },
+
+                 { "data": "catryTitle" },
+
+                 { "data": "description" },
+
+
+                 {
+                     "data": "expId", "render": function (data) {
+                         return " <a class='btn btn-info btn-sm' onclick=Edit(" + data + ")><i class='fa fa-pencil'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete </a>";
+                     },
+                     "orderable": false,
+                     "searchable": false,
+                     "width": "350px"
+                 }
+             ]
+
+         });
+
+
+
+     });
+
+
+    function Edit(id) {
+        window.location.href = "/Expense/EditExp/" + id;
+
+    }
+
+ function Delete(id) {
+            if(confirm('Are You Sure to Delete this Expense Statement'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DeleteExp", "Expense")/' + id,
+                    success: function (response) {
+                    if (response.status == 0) {
+                         toastr.error(response.message)
+                        }
+                 else {
+                 dataTable.ajax.reload();
+                toastr.success(response.message)
+
+
+
+            }
+                    }
+
+                });
+            }
+        }
+
+</script>
+
+
+
+
+

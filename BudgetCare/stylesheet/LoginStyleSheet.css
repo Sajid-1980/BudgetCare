@@ -1,0 +1,40 @@
+﻿body {
+    background-color: #B2DFDB;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loginLayout {
+    border: 2px solid #000000;
+    height: 350px;
+    width: 350px;
+    margin: auto;
+    margin-top: 60px;
+    background-color: #E8F5E9;
+    opacity: 4;
+}
+
+.heading {
+    font-weight: bold;
+    font-family: 'Hammersmith One', sans-serif;
+    letter-spacing: 8px;
+}
+
+.btn {
+    width: 155px;
+    margin-left: 85px;
+    background-color: #BDBDBD;
+    color: black;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.for {
+    margin-left: 60px;
+}
+
+
+::placeholder {
+    font-family: 'Hammersmith One', sans-serif;
+    letter-spacing: 2px;
+}
